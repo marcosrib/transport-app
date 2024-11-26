@@ -7,18 +7,13 @@ import { Modal } from '../../../_components/modal';
 
 import {
   SelectProfileOptionsProps,
-  EnterpriseCreateProps,
   EnterpriseCreateTypeSchema,
 } from '../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { enterpriseCreateSchema } from '../schemas/enterpriseCreateSchema';
-import { createEnterprise, getEnterprise } from '../actions/EnterpriseAction';
+import { createEnterprise } from '../actions/EnterpriseAction';
 import { toast } from 'react-toastify';
 import useURLParams from '@/app/(authenticated)/hooks/useURLParams';
-
-type Props = {
-  profile: SelectProfileOptionsProps[] | undefined;
-};
 
 export default function EnterpriseCreateForm() {
   const { compareParam, deleteParam } = useURLParams();

@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { userEditSchema } from "./schemas/userEditSchema"
+import { enterpriseEditSchema } from "./schemas/enterpriseEditSchema"
 import { enterpriseCreateSchema  } from "./schemas/enterpriseCreateSchema"
 
 export type ProfileProps = {
@@ -33,13 +33,14 @@ export type EnterpriseCreateProps = {
   phone: string
 }
 
-export type UserEditProps = {
-  id: number,
-  name: string,
-  email: string,
-  password: string,
-  status: boolean,
-  profiles: ProfileProps[]
+export type EnterpriseEditProps = {
+  id: number
+  name: string
+  email: string
+  cnpj: string
+  state_registration: string
+  municipal_registration: string
+  phone: string
 }
 
 export type UserSearchDataProps = {
@@ -52,4 +53,4 @@ export type ParamsProps = {
 
 export type EnterpriseCreateTypeSchema = z.infer<typeof enterpriseCreateSchema>
 
-export type UserEditFormTypeSchema = z.infer<typeof userEditSchema>
+export type EnterpriseEditFormTypeSchema = z.infer<typeof enterpriseEditSchema>

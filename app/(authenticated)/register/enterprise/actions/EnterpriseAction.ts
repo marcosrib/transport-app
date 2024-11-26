@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 
-import { EnterpriseCreateTypeSchema, ProfileProps, SelectProfileOptionsProps, UserCreateTypeSchema, UserEditFormTypeSchema, UserEditProps } from "../types";
+import { EnterpriseCreateTypeSchema, EnterpriseEditFormTypeSchema, ProfileProps, SelectProfileOptionsProps, UserCreateTypeSchema, UserEditFormTypeSchema, UserEditProps } from "../types";
 import { revalidatePath } from "next/cache";
 
 interface Profiles {
@@ -72,20 +72,22 @@ export async function createEnterprise(enterprise: EnterpriseCreateTypeSchema) {
  
 }
 
-export async function updateEnterprise(user: UserEditFormTypeSchema, id: number | undefined) {
-  const { profile, ...userWithoutProfile } = user;
-  const renamedProfile = {
-      id: profile.value,
-      name: profile.label,
-    };
-  
-  const userWithProfilesArray = {
-    ...userWithoutProfile,
-    profiles: [renamedProfile],
-  };
+export async function updateEnterprise(enterprise: EnterpriseEditFormTypeSchema, id: number | undefined) {
+  const {cnpj, email, name, municipal_registration, state_registration, phone} = enterprise;
 
   try {
-  
+    const newEnterpreise = await prisma.enterprise.update({
+      where: { id: id }, 
+      data: {
+      cnpj, 
+        email,
+        municipal_registration,
+        name,
+        phone,
+        state_registration,
+
+      },
+    });
     revalidatePath('/register/user')
     return  messageErro(204, `Usuário atualizado com sucesso!`);
   } catch (error) {

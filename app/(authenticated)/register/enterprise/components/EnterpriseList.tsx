@@ -1,6 +1,5 @@
 import { TableCustom } from '@/app/(authenticated)/_components/table';
 import { ParamsProps } from '../types';
-import ButtonActive from './ButtonActive';
 import ButtonEdit from './ButtonEdit';
 import UserSearch from './EnterpriseSearch';
 import { getEnterprise } from '../actions/EnterpriseAction';
@@ -16,6 +15,9 @@ export default async function EnterpriseList({ searchParams }: ParamsProps) {
             <TableCustom.HeaderContent title="Id" />
             <TableCustom.HeaderContent title="Nome" />
             <TableCustom.HeaderContent title="Email" />
+            <TableCustom.HeaderContent title="Inscrição municipal" />
+            <TableCustom.HeaderContent title="Inscrição estadual" />
+            <TableCustom.HeaderContent title="Telefone" />
             <TableCustom.HeaderContent title="Ações" />
           </TableCustom.Header>
           <TableCustom.Column field="id">
@@ -33,12 +35,27 @@ export default async function EnterpriseList({ searchParams }: ParamsProps) {
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
+          <TableCustom.Column field="municipal_registration">
+            {(field) => {
+              return <p>{field}</p>;
+            }}
+          </TableCustom.Column>
+          <TableCustom.Column field="state_registration">
+            {(field) => {
+              return <p>{field}</p>;
+            }}
+          </TableCustom.Column>
+          <TableCustom.Column field="phone">
+            {(field) => {
+              return <p>{field}</p>;
+            }}
+          </TableCustom.Column>
           <TableCustom.Column field="actions">
             {(row) => {
-              let user = JSON.parse(row);
+              let enterprise = JSON.parse(row);
               return (
                 <TableCustom.Actions>
-                  <ButtonEdit user={user} />
+                  <ButtonEdit enterprise={enterprise} />
                 </TableCustom.Actions>
               );
             }}

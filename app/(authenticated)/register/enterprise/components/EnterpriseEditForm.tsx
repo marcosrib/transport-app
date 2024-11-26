@@ -4,18 +4,18 @@ import { Modal } from '@/app/(authenticated)/_components/modal';
 import { Input } from '@/app/components/input';
 import { useForm } from 'react-hook-form';
 import Button from '@/app/(authenticated)/_components/button/Button';
-import { userEditSchema } from '../schemas/userEditSchema';
+import { enterpriseEditSchema } from '../schemas/enterpriseEditSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserEditFormTypeSchema } from '../types';
+import { EnterpriseEditFormTypeSchema } from '../types';
 import { toast } from 'react-toastify';
 
-import { useUserStore } from '../store/useUserStore';
+import { useEnterpriseStore } from '../store/enterpriseUserStore';
 import { useEffect } from 'react';
 import { updateEnterprise } from '../actions/EnterpriseAction';
 import useURLParams from '@/app/(authenticated)/hooks/useURLParams';
 
 export default function EnterpriseEditForm() {
-  const { userEdit: user } = useUserStore();
+  const { enterpriseEdit: enterprise } = useEnterpriseStore();
   const { deleteParam, compareParam } = useURLParams();
 
   const {
@@ -24,34 +24,31 @@ export default function EnterpriseEditForm() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<UserEditFormTypeSchema>({
+  } = useForm<EnterpriseEditFormTypeSchema>({
     mode: 'onBlur',
-    resolver: zodResolver(userEditSchema),
+    resolver: zodResolver(enterpriseEditSchema),
   });
 
-  async function submitUserForm(data: UserEditFormTypeSchema) {
-    const updateUserResult = await updateEnterprise(data, user.id);
-    if (updateUserResult.status !== 204) {
-      toast.error(updateUserResult.message);
+  async function submitUserForm(data: EnterpriseEditFormTypeSchema) {
+    console.log(data);
+
+    const updateEnterpriseResult = await updateEnterprise(data, enterprise.id);
+    if (updateEnterpriseResult.status !== 204) {
+      toast.error(updateEnterpriseResult.message);
       return;
     }
     closeModal();
-    toast.success(updateUserResult.message);
+    toast.success(updateEnterpriseResult.message);
   }
 
   useEffect(() => {
-    setValue('name', user.name);
-    setValue('email', user.email);
-    setValue('status', user.status);
-    if (user?.profiles && user.profiles.length > 0) {
-      setValue('profile', {
-        value: user.profiles[0]?.id,
-        label: user.profiles[0]?.name,
-      });
-    } else {
-      setValue('profile', { value: 0, label: '' });
-    }
-  }, [user]);
+    setValue('name', enterprise.name);
+    setValue('email', enterprise.email);
+    setValue('cnpj', enterprise.cnpj);
+    setValue('municipal_registration', enterprise.municipal_registration);
+    setValue('state_registration', enterprise.state_registration);
+    setValue('phone', enterprise.phone);
+  }, [enterprise]);
 
   function closeModal() {
     deleteParam('show-modal');
@@ -61,25 +58,45 @@ export default function EnterpriseEditForm() {
     <>
       <Modal.Root
         closeModal={closeModal}
-        isOpen={compareParam('show-modal', 'user-edit')}
+        isOpen={compareParam('show-modal', 'enterprise-edit')}
         title={'Editar Usuário'}
       >
         <Modal.Form onSubmit={handleSubmit(submitUserForm)}>
           <Modal.FormInputs>
             <Input.Root>
               <Input.Label label="Nome" />
-              <Input.Input defaultValue={user?.name} {...register('name')} />
+              <Input.Input {...register('name')} />
               <Input.LabelError helperText={errors.name?.message} />
             </Input.Root>
             <Input.Root>
               <Input.Label label="E-mail" />
-              <Input.Input defaultValue={user?.email} {...register('email')} />
+              <Input.Input {...register('email')} />
               <Input.LabelError helperText={errors.email?.message} />
             </Input.Root>
+
             <Input.Root>
-              <Input.Label label="Senha" />
-              <Input.Input {...register('password')} />
-              <Input.LabelError helperText={errors.password?.message} />
+              <Input.Label label="CNPJ" />
+              <Input.Input {...register('cnpj')} />
+              <Input.LabelError helperText={errors.cnpj?.message} />
+            </Input.Root>
+            <Input.Root>
+              <Input.Label label="Inscrição municipal" />
+              <Input.Input {...register('municipal_registration')} />
+              <Input.LabelError
+                helperText={errors.municipal_registration?.message}
+              />
+            </Input.Root>
+            <Input.Root>
+              <Input.Label label="Inscrição estadual" />
+              <Input.Input {...register('state_registration')} />
+              <Input.LabelError
+                helperText={errors.state_registration?.message}
+              />
+            </Input.Root>
+            <Input.Root>
+              <Input.Label label="Telefone" />
+              <Input.Input {...register('phone')} />
+              <Input.LabelError helperText={errors.phone?.message} />
             </Input.Root>
           </Modal.FormInputs>
           <Modal.FormFooter>

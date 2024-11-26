@@ -25,14 +25,17 @@ export default function Sidbar() {
             active={path.includes('/register')}
             icon={<MdLibraryBooks size={20} />}
           >
-            <Nav.Link route="/register/user" active={path === '/register/user'}>
-              <Nav.IconLabel label="Usuario" />
+            <Nav.Link
+              route="/register/enterprise"
+              active={path === '/register/enterprise'}
+            >
+              <Nav.IconLabel label="Empresas" />
             </Nav.Link>
             <Nav.Link
-              route="/register/permission"
-              active={path.includes('/register/permission')}
+              route="/register/motorist"
+              active={path.includes('/register/motorist')}
             >
-              <Nav.IconLabel label="Permisões" />
+              <Nav.IconLabel label="Motorista" />
             </Nav.Link>
           </Nav.AccordionMenu>
           <Nav.AccordionMenu

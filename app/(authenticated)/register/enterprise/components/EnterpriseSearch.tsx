@@ -3,18 +3,17 @@ import Button from '@/app/(authenticated)/_components/button/Button';
 import { Form } from '@/app/(authenticated)/_components/form';
 import { Input } from '@/app/components/input';
 import { MdAdd } from 'react-icons/md';
-import { useUserStore } from '../store/useUserStore';
+import { useEnterpriseStore } from '../store/enterpriseUserStore';
 import { ParamsProps, UserSearchDataProps } from '../types';
-import { userSerachSchema } from '../hooks/schema';
+import { enterpriseSearchSchema } from '../schemas/enterpriseSearchSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import useURLParams from '@/app/(authenticated)/hooks/useURLParams';
 
 export default function UserSearch({ searchParams }: ParamsProps) {
-  const { setMultipleParam, deleteParam, deleteMultipleParam, setParam } =
-    useURLParams();
-  const { resetDataForm } = useUserStore();
+  const { setMultipleParam, deleteMultipleParam, setParam } = useURLParams();
+  const { resetDataForm } = useEnterpriseStore();
 
   const {
     register: registerSearch,
@@ -24,13 +23,11 @@ export default function UserSearch({ searchParams }: ParamsProps) {
     formState: { errors },
   } = useForm<UserSearchDataProps>({
     mode: 'onBlur',
-    resolver: zodResolver(userSerachSchema),
+    resolver: zodResolver(enterpriseSearchSchema),
   });
 
   function handleOpenModal() {
-    console.log('dsdgsdgdslgk');
     resetDataForm();
-
     setParam('show-modal', 'enterprise-create');
   }
 
