@@ -17,3 +17,14 @@ model Enterprise {
   email                  String   @unique
   createdAt              DateTime @default(now())
 }
+
+model Motorist {
+  id        Int      @id @default(autoincrement())
+  name      String
+  rg        String   @unique
+  cpf       String   @unique
+  cnh       String   @unique
+  car_name  String
+  plate     String   @unique
+  createdAt DateTime @default(now())
+}

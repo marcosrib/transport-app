@@ -1,28 +1,28 @@
 'use client';
 import { TableCustom } from '@/app/(authenticated)/_components/table';
 import { FiEdit } from 'react-icons/fi';
-import { useEnterpriseStore } from '../store/enterpriseUserStore';
+import { useMotoristStore } from '../store/motoristUserStore';
 import useURLParams from '@/app/(authenticated)/hooks/useURLParams';
-import { EnterpriseEditProps } from '../types';
+import { MotoristEditProps } from '../types';
 interface Props {
-  enterprise: EnterpriseEditProps;
+  motorists: MotoristEditProps;
 }
 
-export default function ButtonEdit({ enterprise }: Props) {
-  const { addEnterpriseEdit } = useEnterpriseStore();
+export default function ButtonEdit({ motorists }: Props) {
+  const { addMotoristEdit } = useMotoristStore();
   const { setParam } = useURLParams();
   async function handleEditUser(data: any): Promise<void> {
-    addEnterpriseEdit(data);
+    addMotoristEdit(data);
     openModal();
   }
 
   function openModal() {
-    setParam('show-modal', 'enterprise-edit');
+    setParam('show-modal', 'motorist-edit');
   }
 
   return (
     <TableCustom.Button
-      data={enterprise}
+      data={motorists}
       onClick={handleEditUser}
       color={'edit'}
     >

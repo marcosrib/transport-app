@@ -1,12 +1,12 @@
-import UserForm from './components/EnterpriseForm';
-import UserList from './components/EnterpriseList';
+import MotoristForm from './components/MotoristForm';
+import MotoristList from './components/MotoristList';
 import { ParamsProps } from './types';
 
 export default async function Enterprise({ searchParams }: ParamsProps) {
   return (
     <>
-      <UserForm />
-      <UserList searchParams={searchParams} />
+      <MotoristForm />
+      <MotoristList searchParams={searchParams} />
     </>
   );
 }

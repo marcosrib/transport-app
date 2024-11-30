@@ -1,56 +1,34 @@
 import { z } from "zod"
-import { enterpriseEditSchema } from "./schemas/enterpriseEditSchema"
-import { enterpriseCreateSchema  } from "./schemas/enterpriseCreateSchema"
+import { motoristEditSchema } from "./schemas/motoristEditSchema"
+import { motoristCreateSchema  } from "./schemas/motoristCreateSchema"
 
-export type ProfileProps = {
-    id: number,
-    name: string,
-  }
-  
-export type SelectProfileOptionsProps = {
-  value: number,
-  label: string,
-}
-
-export type UpdateSatusProps = {
-  id?: number,
-  status: boolean,
-  
-}
-  
-export type UserDataProps = {
-  name: string,
-  email: string,
-
-}
-
-export type EnterpriseCreateProps = {
+export type MotoristCreateProps = {
   name: string
-  email: string
-  cnpj: string
-  state_registration: string
-  municipal_registration: string
-  phone: string
+  rg: string
+  cpf: string
+  cnh: string
+  car_name: string
+  plate: string
 }
 
-export type EnterpriseEditProps = {
+export type MotoristEditProps = {
   id: number
   name: string
-  email: string
-  cnpj: string
-  state_registration: string
-  municipal_registration: string
-  phone: string
+  rg: string
+  cpf: string
+  cnh: string
+  car_name: string
+  plate: string
 }
 
-export type UserSearchDataProps = {
-  email: string,
+export type MotoristSearchDataProps = {
+  name: string,
 }
 
 export type ParamsProps = {
-  searchParams?: { email: string, page: number},
+  searchParams?: { name: string, page: number},
 }
 
-export type EnterpriseCreateTypeSchema = z.infer<typeof enterpriseCreateSchema>
+export type MotoristCreateTypeSchema = z.infer<typeof motoristCreateSchema>
 
-export type EnterpriseEditFormTypeSchema = z.infer<typeof enterpriseEditSchema>
+export type MotoristEditFormTypeSchema = z.infer<typeof motoristEditSchema>

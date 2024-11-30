@@ -1,12 +1,10 @@
 import { TableCustom } from '@/app/(authenticated)/_components/table';
 import { ParamsProps } from '../types';
 import ButtonEdit from './ButtonEdit';
-import UserSearch from './EnterpriseSearch';
-import { getEnterprise } from '../actions/EnterpriseAction';
-export default async function EnterpriseList({
-  searchParams,
-}: ParamsProps = {}) {
-  const data = await getEnterprise({ searchParams });
+import UserSearch from './MotoristSearch';
+import { getMotorist } from '../actions/MotoristAction';
+export default async function MotoristList({ searchParams }: ParamsProps = {}) {
+  const data = await getMotorist({ searchParams });
 
   return (
     <>
@@ -16,10 +14,11 @@ export default async function EnterpriseList({
           <TableCustom.Header>
             <TableCustom.HeaderContent title="Id" />
             <TableCustom.HeaderContent title="Nome" />
-            <TableCustom.HeaderContent title="Email" />
-            <TableCustom.HeaderContent title="Inscrição municipal" />
-            <TableCustom.HeaderContent title="Inscrição estadual" />
-            <TableCustom.HeaderContent title="Telefone" />
+            <TableCustom.HeaderContent title="RG" />
+            <TableCustom.HeaderContent title="CNH" />
+            <TableCustom.HeaderContent title="CPF" />
+            <TableCustom.HeaderContent title="Placa" />
+            <TableCustom.HeaderContent title="Carro" />
             <TableCustom.HeaderContent title="Ações" />
           </TableCustom.Header>
           <TableCustom.Column field="id">
@@ -32,32 +31,37 @@ export default async function EnterpriseList({
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
-          <TableCustom.Column field="email">
+          <TableCustom.Column field="rg">
             {(field) => {
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
-          <TableCustom.Column field="municipal_registration">
+          <TableCustom.Column field="cnh">
             {(field) => {
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
-          <TableCustom.Column field="state_registration">
+          <TableCustom.Column field="cpf">
             {(field) => {
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
-          <TableCustom.Column field="phone">
+          <TableCustom.Column field="plate">
+            {(field) => {
+              return <p>{field}</p>;
+            }}
+          </TableCustom.Column>
+          <TableCustom.Column field="car_name">
             {(field) => {
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
           <TableCustom.Column field="actions">
             {(row) => {
-              let enterprise = JSON.parse(row);
+              let motorists = JSON.parse(row);
               return (
                 <TableCustom.Actions>
-                  <ButtonEdit enterprise={enterprise} />
+                  <ButtonEdit motorists={motorists} />
                 </TableCustom.Actions>
               );
             }}

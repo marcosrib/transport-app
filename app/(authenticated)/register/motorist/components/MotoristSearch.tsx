@@ -3,17 +3,17 @@ import Button from '@/app/(authenticated)/_components/button/Button';
 import { Form } from '@/app/(authenticated)/_components/form';
 import { Input } from '@/app/components/input';
 import { MdAdd } from 'react-icons/md';
-import { useEnterpriseStore } from '../store/enterpriseUserStore';
-import { ParamsProps, UserSearchDataProps } from '../types';
-import { enterpriseSearchSchema } from '../schemas/enterpriseSearchSchema';
+import { useMotoristStore } from '../store/motoristUserStore';
+import { MotoristSearchDataProps, ParamsProps } from '../types';
+import { motoristSearchSchema } from '../schemas/motoristSearchSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import useURLParams from '@/app/(authenticated)/hooks/useURLParams';
 
-export default function UserSearch({ searchParams }: ParamsProps) {
+export default function MotoristSearch({ searchParams }: ParamsProps) {
   const { setMultipleParam, deleteMultipleParam, setParam } = useURLParams();
-  const { resetDataForm } = useEnterpriseStore();
+  const { resetDataForm } = useMotoristStore();
 
   const {
     register: registerSearch,
@@ -21,47 +21,49 @@ export default function UserSearch({ searchParams }: ParamsProps) {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<UserSearchDataProps>({
+  } = useForm<MotoristSearchDataProps>({
     mode: 'onBlur',
-    resolver: zodResolver(enterpriseSearchSchema),
+    resolver: zodResolver(motoristSearchSchema),
   });
 
   function handleOpenModal() {
     resetDataForm();
-    setParam('show-modal', 'enterprise-create');
+    setParam('show-modal', 'motorist-create');
   }
 
   useEffect(() => {
-    if (searchParams?.email) {
-      setValue('email', searchParams.email);
+    if (searchParams?.name) {
+      setValue('name', searchParams.name);
     }
   }, [searchParams]);
 
-  function handleSearchSubmit(data: UserSearchDataProps) {
+  function handleSearchSubmit(data: MotoristSearchDataProps) {
+    console.log(data);
+
     const params = [
       {
         key: 'page',
         value: '1',
       },
       {
-        key: 'email',
-        value: data.email,
+        key: 'name',
+        value: data.name,
       },
     ];
     setMultipleParam(params);
   }
 
   function clearForm() {
-    deleteMultipleParam(['page', 'email']);
+    deleteMultipleParam(['page', 'name']);
     reset();
   }
   return (
-    <Form.Root title="Empresas" onSubmit={handleSubmit(handleSearchSubmit)}>
+    <Form.Root title="Motoristas" onSubmit={handleSubmit(handleSearchSubmit)}>
       <Form.InputContainer>
         <Input.Root>
-          <Input.Label label="E-mail" />
-          <Input.Input {...registerSearch('email')} />
-          <Input.LabelError helperText={errors.email?.message} />
+          <Input.Label label="Nome" />
+          <Input.Input {...registerSearch('name')} />
+          <Input.LabelError helperText={errors.name?.message} />
         </Input.Root>
       </Form.InputContainer>
       <Form.Buttons>

@@ -4,31 +4,8 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 
-import { EnterpriseCreateTypeSchema, EnterpriseEditFormTypeSchema, ParamsProps, ProfileProps, SelectProfileOptionsProps, UserCreateTypeSchema, UserEditFormTypeSchema, UserEditProps } from "../types";
+import { EnterpriseCreateTypeSchema, EnterpriseEditFormTypeSchema, ParamsProps } from "../types";
 import { revalidatePath } from "next/cache";
-
-interface Profiles {
-  id: string,
-  name: string
-}
-
-interface User {
-  id: string,
-  name: string,
-  email: string,
-  status: string,
-  profiles: Profiles[]
-}
-
-interface UserData {
-  data: User[],
-  totalPages: number,
-  totalElements: number,
-  nextPage: number,
-  previousPage: number,
-  currentPage: number
-}
-
 
 export async function getEnterprise({ searchParams }: ParamsProps) {
   const page = searchParams?.page && searchParams.page > 0 ? searchParams.page : 1; 
@@ -70,7 +47,7 @@ export async function createEnterprise(enterprise: EnterpriseCreateTypeSchema) {
 
   const {cnpj, email, name, municipal_registration, state_registration, phone} = enterprise;
   try {
-    const newEnterpreise = await prisma.enterprise.create({
+    await prisma.enterprise.create({
       data: {
       cnpj, 
         email,
@@ -81,16 +58,16 @@ export async function createEnterprise(enterprise: EnterpriseCreateTypeSchema) {
 
       },
     });
-    revalidatePath('/register/user')
+    revalidatePath('/register/enterprise')
     return { 
       status: 201,
-      message : 'Usuário cadastrado com sucesso'
+      message : 'Empresa cadastrado com sucesso'
     }
   } catch (error) {
     const err = error as any;
     return { 
       stauts: err.status,
-      message : 'Erro ao cadastrar usuário:' + err.message
+      message : 'Erro ao cadastrar Empresa:' + err.message
     }
   }
  
@@ -100,7 +77,7 @@ export async function updateEnterprise(enterprise: EnterpriseEditFormTypeSchema,
   const {cnpj, email, name, municipal_registration, state_registration, phone} = enterprise;
 
   try {
-    const newEnterpreise = await prisma.enterprise.update({
+    await prisma.enterprise.update({
       where: { id: id }, 
       data: {
       cnpj, 
@@ -112,24 +89,11 @@ export async function updateEnterprise(enterprise: EnterpriseEditFormTypeSchema,
 
       },
     });
-    revalidatePath('/register/user')
-    return  messageErro(204, `Usuário atualizado com sucesso!`);
+    revalidatePath('/register/enterprise')
+    return  messageErro(204, `Empresa atualizado com sucesso!`);
   } catch (error) {
     const err = error as any;
-    return messageErro( err.status, `Usuário ao atualizar usuário: ${err.message}`);
-  }
- 
-}
-
-export async function updateStatusEnterprise(status: boolean, id: number | undefined) {
-  const statuMessage = status ? 'ativado' : 'inativado'
-  try {
-    revalidatePath('/register/user')
-    return  messageErro(201, `Usuário ${statuMessage} com sucesso!`);
-  
-  } catch (error) {
-    const err = error as any;
-    return  messageErro(err.status, `Erro ao atualizar status do usuário: ${err.message}`);
+    return messageErro( err.status, `Empresa ao atualizar usuário: ${err.message}`);
   }
  
 }

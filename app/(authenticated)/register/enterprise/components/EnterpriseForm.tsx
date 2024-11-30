@@ -1,7 +1,7 @@
 'use client';
 import { useEnterpriseStore } from '../store/enterpriseUserStore';
-import UserCreateForm from './EnterpriseCreateForm';
-import UserEditForm from './EnterpriseEditForm';
+import EnterpriseCreateForm from './EnterpriseCreateForm';
+import EnterpriseEditForm from './EnterpriseEditForm';
 
 export default function EnterpriseForm() {
   const { enterpriseEdit } = useEnterpriseStore();
@@ -10,7 +10,11 @@ export default function EnterpriseForm() {
 
   return (
     <>
-      {enterpriseEdit.id != undefined ? <UserEditForm /> : <UserCreateForm />}
+      {enterpriseEdit.id != undefined ? (
+        <EnterpriseEditForm />
+      ) : (
+        <EnterpriseCreateForm />
+      )}
     </>
   );
 }
