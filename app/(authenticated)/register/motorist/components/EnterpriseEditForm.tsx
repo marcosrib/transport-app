@@ -1,50 +1,67 @@
 'use client';
-import { useForm } from 'react-hook-form';
-import { Input } from '@/app/components/input';
-import Button from '../../../_components/button/Button';
-import { Modal } from '../../../_components/modal';
 
-import { EnterpriseCreateTypeSchema } from '../types';
+import { Modal } from '@/app/(authenticated)/_components/modal';
+import { Input } from '@/app/components/input';
+import { useForm } from 'react-hook-form';
+import Button from '@/app/(authenticated)/_components/button/Button';
+import { enterpriseEditSchema } from '../schemas/enterpriseEditSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { enterpriseCreateSchema } from '../schemas/enterpriseCreateSchema';
-import { createEnterprise } from '../actions/EnterpriseAction';
+import { EnterpriseEditFormTypeSchema } from '../types';
 import { toast } from 'react-toastify';
+
+import { useEnterpriseStore } from '../store/enterpriseUserStore';
+import { useEffect } from 'react';
+import { updateEnterprise } from '../actions/EnterpriseAction';
 import useURLParams from '@/app/(authenticated)/hooks/useURLParams';
 
-export default function EnterpriseCreateForm() {
-  const { compareParam, deleteParam } = useURLParams();
+export default function EnterpriseEditForm() {
+  const { enterpriseEdit: enterprise } = useEnterpriseStore();
+  const { deleteParam, compareParam } = useURLParams();
 
   const {
     control,
     register,
-    reset,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<EnterpriseCreateTypeSchema>({
+  } = useForm<EnterpriseEditFormTypeSchema>({
     mode: 'onBlur',
-    resolver: zodResolver(enterpriseCreateSchema),
+    resolver: zodResolver(enterpriseEditSchema),
   });
 
-  console.log(errors);
+  async function submitUserForm(data: EnterpriseEditFormTypeSchema) {
+    console.log(data);
 
-  async function submitEnterpriseForm(data: EnterpriseCreateTypeSchema) {
-    const userResult = await createEnterprise(data);
-    if (userResult.status !== 201) {
-      toast.error(userResult.message);
+    const updateEnterpriseResult = await updateEnterprise(data, enterprise.id);
+    if (updateEnterpriseResult.status !== 204) {
+      toast.error(updateEnterpriseResult.message);
       return;
     }
-    deleteParam('show-modal');
-    toast.success(userResult.message);
-    reset();
+    closeModal();
+    toast.success(updateEnterpriseResult.message);
   }
+
+  useEffect(() => {
+    setValue('name', enterprise.name);
+    setValue('email', enterprise.email);
+    setValue('cnpj', enterprise.cnpj);
+    setValue('municipal_registration', enterprise.municipal_registration);
+    setValue('state_registration', enterprise.state_registration);
+    setValue('phone', enterprise.phone);
+  }, [enterprise]);
+
+  function closeModal() {
+    deleteParam('show-modal');
+  }
+
   return (
     <>
       <Modal.Root
-        closeModal={() => deleteParam('show-modal')}
-        isOpen={compareParam('show-modal', 'enterprise-create')}
-        title={'Cadastrar empresa'}
+        closeModal={closeModal}
+        isOpen={compareParam('show-modal', 'enterprise-edit')}
+        title={'Editar Usuário'}
       >
-        <Modal.Form onSubmit={handleSubmit(submitEnterpriseForm)}>
+        <Modal.Form onSubmit={handleSubmit(submitUserForm)}>
           <Modal.FormInputs>
             <Input.Root>
               <Input.Label label="Nome" />
@@ -83,7 +100,7 @@ export default function EnterpriseCreateForm() {
             </Input.Root>
           </Modal.FormInputs>
           <Modal.FormFooter>
-            <Button label={'Cadastrar'} color="search" type="submit" />
+            <Button label={'Atualizar'} color="search" type="submit" />
           </Modal.FormFooter>
         </Modal.Form>
       </Modal.Root>

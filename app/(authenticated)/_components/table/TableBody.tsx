@@ -14,28 +14,18 @@ export async function TableBody({
   params,
   isSize = true,
 }: Props) {
-  const initialParams = {
-    page: 1,
-    size: 10,
-    ...params,
-  };
+  let totalPages = data.totalPages;
+  console.log('data 2', data);
 
-  /*const paramsUrl = new URLSearchParams(initialParams).toString();
-  const urlComplete = isSize ? `${url}?${paramsUrl}` : url;
-
-  let data = null;*/
-  let totalPages = 0;
-  console.log('data', data);
-
-  if (data === null) {
+  if (data.data === null) {
     return <>Não há dados</>;
   }
 
   if (isSize) {
-    totalPages = 1;
-    data = data;
+    totalPages = totalPages;
+    data = data.data;
   } else {
-    data = data;
+    data = data.data;
   }
 
   const header = React.Children.toArray(children)[0];
