@@ -23,7 +23,9 @@ export default function useURLParams() {
         const paramsUrl = new URLSearchParams(searchParams.toString());
         if(params.length > 0){
             params.forEach(param => {
-                paramsUrl.set(param.key, param.value.toString());
+                if (param.value !== undefined) {
+                    paramsUrl.set(param.key, param.value.toString());
+                }
             });
             router.push(`${pathName}/?${paramsUrl.toString()}`);
         }

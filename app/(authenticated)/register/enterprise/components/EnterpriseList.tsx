@@ -1,16 +1,14 @@
 import { TableCustom } from '@/app/(authenticated)/_components/table';
 import { ParamsProps } from '../types';
 import ButtonEdit from './ButtonEdit';
-import UserSearch from './EnterpriseSearch';
+import EnterpriseSearch from './EnterpriseSearch';
 import { getEnterprise } from '../actions/EnterpriseAction';
-export default async function EnterpriseList({
-  searchParams,
-}: ParamsProps = {}) {
+export default async function EnterpriseList({ searchParams }: ParamsProps) {
   const data = await getEnterprise({ searchParams });
 
   return (
     <>
-      <UserSearch searchParams={searchParams} />
+      <EnterpriseSearch searchParams={searchParams} />
       <TableCustom.Root>
         <TableCustom.Body data={data} params={searchParams}>
           <TableCustom.Header>

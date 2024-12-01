@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import useURLParams from '@/app/(authenticated)/hooks/useURLParams';
 
-export default function UserSearch({ searchParams }: ParamsProps) {
+export default function EntepriseSearch({ searchParams }: ParamsProps) {
   const { setMultipleParam, deleteMultipleParam, setParam } = useURLParams();
   const { resetDataForm } = useEnterpriseStore();
 

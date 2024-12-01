@@ -48,7 +48,7 @@ export type UserSearchDataProps = {
 }
 
 export type ParamsProps = {
-  searchParams?: { email: string, page: number},
+  searchParams?: { email: string, page: number} ,
 }
 
 export type EnterpriseCreateTypeSchema = z.infer<typeof enterpriseCreateSchema>
