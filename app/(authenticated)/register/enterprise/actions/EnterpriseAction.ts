@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 
 export async function getEnterprise({ searchParams }: ParamsProps) {
   const page = searchParams?.page && searchParams.page > 0 ? searchParams.page : 1; 
-  const pageSize = 1
+  const pageSize = 20
   const skip = (page - pageSize) * 1; // Cálculo do deslocamento
   const take = pageSize; 
   const whereClause = searchParams?.email  ? { email: { contains: searchParams?.email } } : undefined;
