@@ -8,36 +8,39 @@ import { EnterpriseCreateTypeSchema, EnterpriseEditFormTypeSchema, ParamsProps }
 import { revalidatePath } from "next/cache";
 
 export async function getEnterprise({ searchParams }: ParamsProps) {
-  const page = searchParams?.page && searchParams.page > 0 ? searchParams.page : 1; 
-  const pageSize = 20
-  const skip = (page - pageSize) * 1; // Cálculo do deslocamento
-  const take = pageSize; 
-  const whereClause = searchParams?.email  ? { email: { contains: searchParams?.email } } : undefined;
+  const page = searchParams?.page && searchParams.page > 0 ? searchParams.page : 1;
+  const pageSize = 20;
+
+  const skip = Math.max(0, (page - 1) * pageSize); 
+
+  const take = pageSize;
+  const whereClause = searchParams?.email
+    ? { email: { contains: searchParams?.email } }
+    : undefined;
+
   try {
-  
     const enterprises = await prisma.enterprise.findMany({
       skip,
       take,
-      where: whereClause, 
+      where: whereClause,
       orderBy: {
-        createdAt: 'desc', 
+        createdAt: 'desc',
       },
-      
-    })
+    });
 
-  const total = await prisma.enterprise.count({
-    where: whereClause,
-  }); 
-  const totalPages = Math.ceil(total / pageSize);
+    const total = await prisma.enterprise.count({
+      where: whereClause,
+    });
+    const totalPages = Math.ceil(total / pageSize);
 
-  return {
-    data: enterprises,
-    page,
-    totalPages
-  };
+    return {
+      data: enterprises,
+      page,
+      totalPages,
+    };
   } catch (error) {
-    console.log(error)
-    return []
+    console.log(error);
+    return [];
   }
 }
 

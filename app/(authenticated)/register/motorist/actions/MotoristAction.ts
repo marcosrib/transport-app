@@ -10,7 +10,7 @@ import { revalidatePath } from "next/cache";
 export async function getMotorist({ searchParams }: ParamsProps) {
   const page = searchParams?.page && searchParams.page > 0 ? searchParams.page : 1; 
   const pageSize = 20
-  const skip = (page - 1) * pageSize; // Cálculo do deslocamento
+  const skip = Math.max(0, (page - 1) * pageSize); 
   const take = pageSize; 
   const whereClause = searchParams?.name
     ? { 
