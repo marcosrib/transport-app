@@ -6,23 +6,16 @@ export type ProfileProps = {
     id: number,
     name: string,
   }
-  
-export type SelectProfileOptionsProps = {
-  value: number,
+ 
+export type SelectEnterpriseOptionsProps = {
+  value: string,
   label: string,
+} 
+
+export type EnterpriseSearchDataProps = {
+  cnpj: string,
 }
 
-export type UpdateSatusProps = {
-  id?: number,
-  status: boolean,
-  
-}
-  
-export type UserDataProps = {
-  name: string,
-  email: string,
-
-}
 
 export type EnterpriseCreateProps = {
   name: string
@@ -34,7 +27,7 @@ export type EnterpriseCreateProps = {
 }
 
 export type EnterpriseEditProps = {
-  id: number
+  id: string
   name: string
   email: string
   cnpj: string
@@ -43,12 +36,8 @@ export type EnterpriseEditProps = {
   phone: string
 }
 
-export type UserSearchDataProps = {
-  email: string,
-}
-
 export type ParamsProps = {
-  searchParams?: { email: string, page: number} ,
+  searchParams?: { cnpj: string, page: number} ,
 }
 
 export type EnterpriseCreateTypeSchema = z.infer<typeof enterpriseCreateSchema>

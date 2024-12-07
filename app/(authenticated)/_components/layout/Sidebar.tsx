@@ -37,6 +37,12 @@ export default function Sidbar() {
             >
               <Nav.IconLabel label="Motorista" />
             </Nav.Link>
+            <Nav.Link
+              route="/register/employees"
+              active={path.includes('/register/employees')}
+            >
+              <Nav.IconLabel label="Funcionarios" />
+            </Nav.Link>
           </Nav.AccordionMenu>
           <Nav.AccordionMenu
             label="Financeiro"

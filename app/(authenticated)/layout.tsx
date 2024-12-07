@@ -1,5 +1,6 @@
 import Header from './_components/layout/Header';
 import Sidebar from './_components/layout/Sidebar';
+import AppProviders from './providers';
 
 export default async function PrivateLayout({
   children,
@@ -14,7 +15,7 @@ export default async function PrivateLayout({
           <div className="flex flex-col w-full md:space-y-4">
             <Header />
             <div className="h-screen pb-24 xl:overflow-auto overflow-auto pr-5">
-              {children}
+              <AppProviders>{children}</AppProviders>
             </div>
           </div>
         </div>

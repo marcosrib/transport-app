@@ -8,18 +8,20 @@ datasource db {
 }
 
 model Enterprise {
-  id                     Int      @id @default(autoincrement())
+  id                     String      @id @default(uuid())
   name                   String
   cnpj                   String
   state_registration     String
   municipal_registration String
   phone                  String
-  email                  String   @unique
-  createdAt              DateTime @default(now())
+  email                  String      @unique
+  Employees              Employees[]
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
 }
 
 model Motorist {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   rg        String   @unique
   cpf       String   @unique
@@ -27,4 +29,18 @@ model Motorist {
   car_name  String
   plate     String   @unique
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Employees {
+  id           String     @id @default(uuid())
+  name         String
+  rg           String     @unique
+  cpf          String     @unique
+  email        String     @unique
+  phone        String
+  enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
+  enterpriseId String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }

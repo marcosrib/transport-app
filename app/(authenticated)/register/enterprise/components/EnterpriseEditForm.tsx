@@ -29,9 +29,7 @@ export default function EnterpriseEditForm() {
     resolver: zodResolver(enterpriseEditSchema),
   });
 
-  async function submitUserForm(data: EnterpriseEditFormTypeSchema) {
-    console.log(data);
-
+  async function submitEnterpriseForm(data: EnterpriseEditFormTypeSchema) {
     const updateEnterpriseResult = await updateEnterprise(data, enterprise.id);
     if (updateEnterpriseResult.status !== 204) {
       toast.error(updateEnterpriseResult.message);
@@ -59,12 +57,12 @@ export default function EnterpriseEditForm() {
       <Modal.Root
         closeModal={closeModal}
         isOpen={compareParam('show-modal', 'enterprise-edit')}
-        title={'Editar Usuário'}
+        title={'Editar Empresa'}
       >
-        <Modal.Form onSubmit={handleSubmit(submitUserForm)}>
+        <Modal.Form onSubmit={handleSubmit(submitEnterpriseForm)}>
           <Modal.FormInputs>
             <Input.Root>
-              <Input.Label label="Nome" />
+              <Input.Label label="Razão social" />
               <Input.Input {...register('name')} />
               <Input.LabelError helperText={errors.name?.message} />
             </Input.Root>
@@ -94,7 +92,7 @@ export default function EnterpriseEditForm() {
               />
             </Input.Root>
             <Input.Root>
-              <Input.Label label="Telefone" />
+              <Input.Label label="Contato" />
               <Input.Input {...register('phone')} />
               <Input.LabelError helperText={errors.phone?.message} />
             </Input.Root>

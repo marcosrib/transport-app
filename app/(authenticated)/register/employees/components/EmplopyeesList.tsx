@@ -1,10 +1,10 @@
 import { TableCustom } from '@/app/(authenticated)/_components/table';
 import { ParamsProps } from '../types';
 import ButtonEdit from './ButtonEdit';
-import EnterpriseSearch from './EnterpriseSearch';
-import { getEnterprise } from '../actions/EnterpriseAction';
-export default async function EnterpriseList({ searchParams }: ParamsProps) {
-  const data = await getEnterprise({ searchParams });
+import EnterpriseSearch from './EmplopyeesSearch';
+import { getEmployees } from '../actions/EmployeesAction';
+export default async function EmployeesList({ searchParams }: ParamsProps) {
+  const data = await getEmployees({ searchParams });
 
   return (
     <>
@@ -12,12 +12,12 @@ export default async function EnterpriseList({ searchParams }: ParamsProps) {
       <TableCustom.Root>
         <TableCustom.Body data={data} params={searchParams}>
           <TableCustom.Header>
-            <TableCustom.HeaderContent title="Razão social" />
-            <TableCustom.HeaderContent title="cnpj" />
+            <TableCustom.HeaderContent title="Nome" />
+            <TableCustom.HeaderContent title="cpf" />
             <TableCustom.HeaderContent title="Email" />
-            <TableCustom.HeaderContent title="Inscrição municipal" />
-            <TableCustom.HeaderContent title="Inscrição estadual" />
+            <TableCustom.HeaderContent title="rg" />
             <TableCustom.HeaderContent title="Contato" />
+            <TableCustom.HeaderContent title="Empresa" />
             <TableCustom.HeaderContent title="Ações" />
           </TableCustom.Header>
           <TableCustom.Column field="name">
@@ -25,7 +25,7 @@ export default async function EnterpriseList({ searchParams }: ParamsProps) {
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
-          <TableCustom.Column field="cnpj">
+          <TableCustom.Column field="cpf">
             {(field) => {
               return <p>{field}</p>;
             }}
@@ -35,12 +35,7 @@ export default async function EnterpriseList({ searchParams }: ParamsProps) {
               return <p>{field}</p>;
             }}
           </TableCustom.Column>
-          <TableCustom.Column field="municipal_registration">
-            {(field) => {
-              return <p>{field}</p>;
-            }}
-          </TableCustom.Column>
-          <TableCustom.Column field="state_registration">
+          <TableCustom.Column field="rg">
             {(field) => {
               return <p>{field}</p>;
             }}
@@ -48,6 +43,11 @@ export default async function EnterpriseList({ searchParams }: ParamsProps) {
           <TableCustom.Column field="phone">
             {(field) => {
               return <p>{field}</p>;
+            }}
+          </TableCustom.Column>
+          <TableCustom.Column field="combinedData">
+            {(field) => {
+              return <p>{JSON.parse(field).enterprise.label}</p>;
             }}
           </TableCustom.Column>
           <TableCustom.Column field="actions">

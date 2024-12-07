@@ -47,7 +47,7 @@ export default function EnterpriseCreateForm() {
         <Modal.Form onSubmit={handleSubmit(submitEnterpriseForm)}>
           <Modal.FormInputs>
             <Input.Root>
-              <Input.Label label="Nome" />
+              <Input.Label label="Razão social" />
               <Input.Input {...register('name')} />
               <Input.LabelError helperText={errors.name?.message} />
             </Input.Root>
@@ -77,7 +77,7 @@ export default function EnterpriseCreateForm() {
               />
             </Input.Root>
             <Input.Root>
-              <Input.Label label="Telefone" />
+              <Input.Label label="Contato" />
               <Input.Input {...register('phone')} />
               <Input.LabelError helperText={errors.phone?.message} />
             </Input.Root>

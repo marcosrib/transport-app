@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 
-import { EnterpriseCreateTypeSchema, EnterpriseEditFormTypeSchema, ParamsProps } from "../types";
+import { EnterpriseCreateTypeSchema, EnterpriseEditFormTypeSchema, ParamsProps, SelectEnterpriseOptionsProps } from "../types";
 import { revalidatePath } from "next/cache";
 
 export async function getEnterprise({ searchParams }: ParamsProps) {
@@ -14,8 +14,8 @@ export async function getEnterprise({ searchParams }: ParamsProps) {
   const skip = Math.max(0, (page - 1) * pageSize); 
 
   const take = pageSize;
-  const whereClause = searchParams?.email
-    ? { email: { contains: searchParams?.email } }
+  const whereClause = searchParams?.cnpj
+    ? { cnpj: { contains: searchParams?.cnpj } }
     : undefined;
 
   try {
@@ -44,6 +44,21 @@ export async function getEnterprise({ searchParams }: ParamsProps) {
   }
 }
 
+export async function getEnterpriseAll(): Promise<SelectEnterpriseOptionsProps[]> {
+  try {
+    const enterprises = await prisma.enterprise.findMany();
+    if(enterprises) {
+    return enterprises.map((enterprise) => ({
+      value: enterprise.id,
+      label: enterprise.name,
+    }));
+  }
+  return [{ value: "0", label: 'Nenhum plano de contas encontrado'}]
+  } catch (error) {
+    console.error("Error fetching enterprises:", error);
+    return [];
+  }
+}
  
 
 export async function createEnterprise(enterprise: EnterpriseCreateTypeSchema) {
@@ -76,7 +91,7 @@ export async function createEnterprise(enterprise: EnterpriseCreateTypeSchema) {
  
 }
 
-export async function updateEnterprise(enterprise: EnterpriseEditFormTypeSchema, id: number | undefined) {
+export async function updateEnterprise(enterprise: EnterpriseEditFormTypeSchema, id: string | undefined) {
   const {cnpj, email, name, municipal_registration, state_registration, phone} = enterprise;
 
   try {

@@ -12,7 +12,7 @@ export type MotoristCreateProps = {
 }
 
 export type MotoristEditProps = {
-  id: number
+  id: string
   name: string
   rg: string
   cpf: string

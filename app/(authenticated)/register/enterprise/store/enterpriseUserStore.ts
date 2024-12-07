@@ -4,15 +4,15 @@ import { EnterpriseEditProps } from '../types';
 
 type StoreProps = {
     enterpriseEdit: EnterpriseEditProps,
-    addEnterpriseEdit: (user: EnterpriseEditProps) => void;
+    addEnterpriseEdit: (enterprise: EnterpriseEditProps) => void;
     resetDataForm: () => void;
 }
 
 export const useEnterpriseStore = create<StoreProps>((set) => ({
   enterpriseEdit: {} as EnterpriseEditProps,
-  addEnterpriseEdit: (user) =>
+  addEnterpriseEdit: (enterprise) =>
     set((state) => ({
-      enterpriseEdit: { ...state.enterpriseEdit, ...user }, 
+      enterpriseEdit: { ...state.enterpriseEdit, ...enterprise }, 
     })),
     resetDataForm: () => set({ enterpriseEdit: {} as EnterpriseEditProps })
 }))

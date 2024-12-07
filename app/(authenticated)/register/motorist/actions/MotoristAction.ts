@@ -83,7 +83,7 @@ export async function createMotorist(motorist: MotoristCreateTypeSchema) {
  
 }
 
-export async function updateMotorist(motorist: MotoristEditFormTypeSchema, id: number | undefined) {
+export async function updateMotorist(motorist: MotoristEditFormTypeSchema, id: string | undefined) {
   const {name, cpf, car_name, cnh, plate, rg } = motorist;
 
   try {
